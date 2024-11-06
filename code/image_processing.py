@@ -68,28 +68,18 @@ for i in range(h):
         
         gray1[i][j] = median
 
-#mediam filter 5*5
-gray = np.pad(gray, ((2, 2), (2, 2)), 'constant', constant_values = (0, 0))
+#blur 3*3
+gray = np.pad(gray, ((1, 1), (1, 1)), 'constant', constant_values = (0, 0))
 gray1 = np.zeros([h, w], dtype=int)
 
 for i in range(h):
     for j in range(w):
-        count = []
-        for k in range(5):
-            for l in range(5):
-                count.append(gray[i+k][j+l])
-
-        n = len(count)
-        for o in range(n):
-            for p in range(n-o-1):
-                if count[p] > count[p+1]:
-                    count[p], count[p+1] = count[p+1], count[p]
-
-        median = n//2 + 1 if n%2 > 0 else n//2
+        count = 0
+        for k in range(3):
+            for l in range(3):
+                count += gray[i+k][j+l]
         
-        gray1[i][j] = median
-
-#blur
+        gray1[i][j] = count / 9
 
 #plt.imshow(out, cmap=plt.get_cmap('gray'))
 #plt.show()
